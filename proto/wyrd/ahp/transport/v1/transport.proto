@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package wyrd.ahp.transport.v1;
+
+service AhpTransport {
+  rpc Connect(stream AhpFrame) returns (stream AhpFrame);
+}
+
+message AhpFrame {
+  string text = 1;
+}
