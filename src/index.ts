@@ -13,10 +13,13 @@ export type {
   GrpcFrame,
 } from './transport.js';
 export type {
-  JsonRpcError,
+  AhpTransport,
+  JsonRpcErrorResponse,
   JsonRpcMessage,
   JsonRpcNotification,
   JsonRpcRequest,
   JsonRpcResponse,
+  JsonRpcSuccessResponse,
   ServerTransport,
+  TransportFrame,
 } from './types.js';

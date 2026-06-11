@@ -33,7 +33,9 @@ test('routes JSON-RPC frames over gRPC on a Unix domain socket', async () => {
   const serverTransport = await serverTransportPromise;
 
   await client.send({ jsonrpc: '2.0', id: 1, method: 'ping' });
-  assert.deepEqual(JSON.parse(String(await serverTransport.recv())), {
+  const serverFrame = await serverTransport.recv();
+  assert.equal(serverFrame?.kind, 'text');
+  assert.deepEqual(JSON.parse(serverFrame.kind === 'text' ? serverFrame.text : ''), {
     jsonrpc: '2.0',
     id: 1,
     method: 'ping',

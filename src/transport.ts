@@ -14,7 +14,7 @@ import {
   type UntypedServiceImplementation,
 } from '@grpc/grpc-js';
 
-import type { JsonRpcMessage as ServerJsonRpcMessage, ServerTransport } from './types.js';
+import type { ServerTransport } from './types.js';
 
 export interface GrpcFrame {
   readonly text: string;
@@ -138,12 +138,13 @@ export class GrpcServerTransport implements ServerTransport {
     this.inner = new GrpcTextStreamTransport(call);
   }
 
-  send(message: ServerJsonRpcMessage | string): void {
+  send(message: JsonRpcMessage | string): void {
     this.inner.sendText(typeof message === 'string' ? message : JSON.stringify(message));
   }
 
-  recv(): Promise<ServerJsonRpcMessage | string | null> {
-    return this.inner.recvText();
+  async recv(): Promise<TransportFrame | null> {
+    const text = await this.inner.recvText();
+    return text === null ? null : { kind: 'text', text };
   }
 
   close(): void {
