@@ -10,7 +10,7 @@
     "url": "git+https://github.com/wyrd-company/ahp-grpc.git"
   },
   "files": [
-    "dist",
+    "dist/src",
     "proto",
     "README.md",
     "LICENSE"
@@ -26,6 +26,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "clean": "rm -rf dist",
+    "prepack": "npm run clean && npm run build",
+    "prepublishOnly": "npm run verify",
     "test": "node --test --import tsx test/*.test.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "verify": "npm run typecheck && npm test && npm run build"
@@ -41,5 +43,8 @@
   },
   "overrides": {
     "esbuild": "^0.28.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
